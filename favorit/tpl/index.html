@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>收藏夹</title>
+		<link rel="shortcut icon" href="./Public/img/favicon.png" />
+		<link rel="stylesheet" type="text/css" href="./Public/css/app.css" />
+		<link rel="stylesheet" type="text/css" href="./Public/css/tree.css" />
+		<link rel="stylesheet" type="text/css" href="./Public/css/scrollbar.css" />
+		<script type="text/javascript" src="./Public/lib/sea.js"></script>
+	</head>
+	<body>
+		<header class="hd">
+			<div class="logo"><span>收藏夹</span></div>
+			<div class="search" id="J_search">
+				<input type="text" id="J_sinput" class="m-input-text" placeholder="搜索收藏夹" /><button id="J_sbutton" class="search-btn m-btn m-btn-blue">搜索</button>
+			</div>
+			<div class="user-info">
+				test@sina.com
+			</div>
+		</header>
+
+		<div class="action-wrap">
+			<div class="btn-area">
+				<!-- <button id="J_import" class="m-btn m-btn-gray" title="只有收藏夹为空时才能使用此功能" disabled="true">导入收藏夹</button> -->
+				<a id="J_export" href="#" target="_blank" class="m-btn m-btn-vermilion">导出收藏夹</a>
+			</div>
+			<div class="summary-section"><span>目前共有<span class="count">{=count}</span>条记录</span></div>
+		</div>
+
+		<div class="main-wrap">
+			<div id="J_tree" class="tree" onselectstart="return false;"></div>
+			<div class="splitter"></div>
+			<div id="J_urlwrap" class="urls-wrap"><div class="urls-items"></div></div>
+		</div>
+
+		<script type="text/javascript">
+			seajs.config({
+				alias: {
+					'jquery': '../lib/jquery-1.7.1.min.js'
+				},
+				base: './Public/js',
+  				charset: 'utf-8'
+			});
+
+			seajs.use('app', function(app){
+				app.run();
+			});
+		</script>
+	</body>
+</html>

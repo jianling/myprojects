@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>测试canvas</title>
+        <link rel="stylesheet" type="text/css" href="./lib/reset.css" />
+        <style type="text/css">
+            #J_canvas {
+                background-color: #4B7297;
+                margin: 20px;
+            }
+        </style>
+        <script type="text/javascript" src="./lib/jQuery.js"></script>
+    </head>
+    <body>
+        <canvas id="J_canvas" height="400" width="600" class="red blue">
+            Your browser isn`t support canvas.
+        </canvas>
+        
+        <script type="text/javascript">
+            var canvas = document.getElementById("J_canvas"),
+                getImageURL = function(file){
+                    if(window.webkitURL.createObjectURL){
+                        return window.webkitURL.createObjectURL(file);
+                    }else if(window.URL.createObjectURL){
+                        return window.URL.createObjectURL(file);
+                    }else{
+                        var reader = new FileReader();
+                        reader.onload = function(e){
+                            return e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+            $(canvas).on("dragover", function(e){
+                e.stopPropagation();
+                e.preventDefault();
+            });
+            $(canvas).on("drop", function(e){
+                var files = e.originalEvent.dataTransfer.files;
+                  var context = canvas.getContext('2d');
+                  if(context){
+                      var img = new Image();
+                      img.src = getImageURL(files[0]);
+                      img.onload = function(){
+                          context.drawImage(img, 10, 10, 100, 100, 10, 10, 100, 100);
+                      };
+                  }
+            });
+        </script>
+    </body>
+</html>

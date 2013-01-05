@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>blog式日历控件</title>
+<style type="text/css">
+
+body{
+    position:relative;
+}
+
+.Calendar {
+	font-family:Verdana;
+	font-size:12px;
+	background-color:#e0ecf9;
+	text-align:center;
+	width:200px;
+	height:160px;
+	padding:10px;
+	line-height:1.5em;
+}
+.Calendar a{
+	color:#1e5494;
+}
+
+.Calendar table{
+	width:100%;
+	border:0;
+}
+
+.Calendar table .isday {
+	font-size: 11px;
+	padding:1px;
+	border:1px solid #CCCCCC;
+	background-color:#FFFFFF;
+}
+.Calendar table .isday:hover {
+	cursor:pointer;
+	background-color:#426FD9;
+}
+
+.Calendar table .head td {
+	color:#000000;
+	font-weight:bold;
+	background-color:#E0ECF9;
+	border:0px;
+}
+
+.Calendar table td {
+	font-size: 11px;
+	padding:1px;
+	border:1px solid #CCCCCC;
+	background-color:#CCCCCC;
+}
+.Calendar table .notnull:hover {
+	background-color:#426FD9;
+	cursor:pointer;
+}
+.Calendar table .day {
+	display:block;
+}
+#idCalendarPre{
+	cursor:pointer;
+	float:left;
+	padding-right:5px;
+}
+#idCalendarNext{
+	cursor:pointer;
+	float:right;
+	padding-right:5px;
+}
+#idCalendar td.onToday {
+	font-weight:bold;
+	color:#C60;
+	border:1px solid #000000;
+	background-color:#FF9900;
+}
+
+#idCalendar td.onSelect {
+	font-weight:bold;
+}
+
+#Calendar {
+    position:absolute;
+	display:none;
+}
+</style>
+</head>
+<body>
+<script src="./Calendar.js" type="text/javascript"></script>
+<div style="margin-top:20px;">
+<input type="text" id="getday" onfocus="initCalendar(this);"/>
+  <input type="text" id="getday" onfocus="initCalendar(this);"/>
+  <input type="text" id="getday" onfocus="initCalendar(this);"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>canvas-charts barChart</title>
+        <link rel="stylesheet" type="text/css" href="../lib/reset.css" />
+        <style type="text/css">
+            canvas {
+                background-color: #4B7297;
+                margin: 20px;
+            }
+        </style>
+        <script type="text/javascript" src="../lib/jQuery.js"></script>
+        <script type="text/javascript" src="./canvas-charts.js"></script>
+        <script type="text/javascript" src="./canvas-charts-barChart.js"></script>
+    </head>
+    <body>
+        <h1>测试条形图</h1>
+        <canvas id="J_canvas1" height="800" width="600" class="red blue">Your browser isn`t support canvas.</canvas><br />
+        <canvas id="J_canvas2" height="800" width="800" class="red blue">Your browser isn`t support canvas.</canvas><br />
+        <script type="text/javascript">
+            var abscissa = ["im", "favo", "noah", "passport", "news", "aladdin", "ps", "im", "favo", "noah", "passport", "news", "aladdin"],
+            	data1 = [
+            	           [200, 350, 450, 360, 450, 470, 365, 345, 255, 460, 330, 480, 100],
+            	           [200, 350, 450, 360, 450, 470, 365, 345, 255, 460, 330, 480, 100],
+            	           [300, 290, 170, 430, 460, 380, 365, 345, 255, 260, 430, 380, 100]
+            	        ],
+            	data2 = [2000, 3500, 4500, 3600, 7500, 4704, 3365, 4345, 7255, 8460, 9330, 6480, 1000],
+	            canvas1 = document.getElementById("J_canvas1"),
+	            canvas2 = document.getElementById("J_canvas2");
+	         	
+            Canchar.barChart({
+            	"canvas": canvas1,
+            	"abscissa": abscissa,
+            	"values": data1,
+            	"xAxisMaxValue" : 500,
+            	"xAxisValuePerType": true,
+            	"showValue": false
+            });
+            Canchar.barChart({
+                "canvas": canvas2,
+                "abscissa": abscissa,
+                "values": data2,
+                "xAxisMaxValue" : 10000
+            });
+        </script>
+    </body>
+</html>

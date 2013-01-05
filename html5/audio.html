@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			#filedrag  
+			{  
+				font-weight: bold;  
+				text-align: center;  
+				padding: 1em 0;  
+				margin: 1em 0;  
+				color: #555;  
+				border: 2px dashed #555;  
+				border-radius: 7px;  
+				cursor: default;  
+			}  
+			#filedrag.hover  
+			{  
+				color: #f00;  
+				border-color: #f00;  
+				border-style: solid;  
+				box-shadow: inset 0 3px 4px #888;  
+			}
+		</style>
+	</head>
+	<body>
+		<p>测试文件上传</p>
+		<form id="J_form" action="./upload.php" method="POST" ecctype="multipart/form-data">
+			<fieldset>
+				<legend>HTML5 File Upload</legend>
+				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="30000" />
+				<div>
+					<label for="fileselect">Files to upload:</label>
+					<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+					<div id="filedrag">or drog files here</div>
+				</div>
+				<div>
+					<button type="submit">Upload Files</button>
+				</div>
+			</fieldset>
+		</form>
+		<div id="J_messages">
+			<p>Status Messages:</p>
+		</div>
+		<script type="text/javascript">
+			function $(el){
+				return document.getElementById(el);
+			}
+			function output(msg){
+				var console = $("J_messages");
+				console.innerHTML = console.innerHTML + "<p>" + msg + "</p>";
+			}
+			function clearoutput(){
+				var console = $("J_messages");
+				console.innerHTML = "";
+			}
+			
+			
+			
+			if(window.File && window.FileList && window.FileReader){
+				init();
+			}
+			function init(){
+				var fileseltct = $("fileselect"),
+					filedrag = $("filedrag"),
+					submitbutton = $("submitbutton");
+				
+				fileselect.addEventListener("change", FileSelectHandler, false);
+				
+				var xhr = new XMLHttpRequest();
+				if(xhr.upload){
+					filedrag.addEventListener("dragover", FileDragHover, false);
+					filedrag.addEventListener("dragleave", FileDragHover, false);
+					filedrag.addEventListener("drop", FileSelectHandler, false);
+				}
+			}
+			
+			function FileDragHover(e){
+				e.stopPropagation();
+				e.preventDefault();
+				e.target.className = (e.type == "dragover" ? "hover" : "");
+			}
+			function FileSelectHandler(e){
+				FileDragHover(e);
+				var files = e.target.files || e.dataTransfer.files;
+				for(var i = 0,f; f = files[i]; i++){
+					ParseFile(f);
+				}
+			}
+			
+			function ParseFile(file){
+				output("File information: " + file.name + 
+						" type: " + file.type + " size: " + file.size + " bytes.");
+			}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

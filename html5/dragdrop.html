@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>测试Drag-Drop</title>
+        <link rel="stylesheet" type="text/css" href="./lib/reset.css" />
+        <style type="text/css">
+            body {
+                padding: 20px;
+            }
+            .shop {
+                float: left;
+            }
+            .shop ul {
+                border: 1px solid #E1E1E1;
+                margin: 10px;
+            }
+            li {
+                line-height: 1.5em;
+                width: 100px;
+                cursor: pointer;
+                margin: 3px 10px;
+                padding-left: 5px;
+                background-color: #eee;
+                -webkit-border-radius: 5px;
+                position: relative;
+            }
+            li:hover {
+                background-color: #FFCC99;
+            }
+            li.disable {
+                cursor: default;
+            }
+            li.disable:hover {
+                background-color: #eee;
+            }
+            li .reserves {
+                font-size: 12px;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                background-color: #0066FF;
+                -webkit-border-radius: 3px;
+                width: 15px;
+                height: 15px;
+                line-height: 15px;
+                text-align: center;
+            }
+            li.disable .reserves {
+                background-color: red;
+            }
+            .cart {
+                float: left;
+            }
+            .cart ul {
+                border: 1px solid #E1E1E1;
+                margin: 10px;
+                height: 140px;
+                width: 130px;
+            }
+            #J_console {
+                border: 1px solid #E1E1E1;
+                padding: 10px;
+                clear: both;
+            }
+        </style>
+        <script type="text/javascript" src="./lib/jQuery.js"></script>
+    </head>
+    <body>
+        <h2>测试Drag-Drop</h2>
+        <div class="shop">
+            <h3>Shop</h3>
+            <ul id="J_shop">
+                <li data-value="apple" data-reserves="4">Apple</li>
+                <li data-value="orange" data-reserves="7">Orange</li>
+                <li data-value="banana" data-reserves="2">Banana</li>
+                <li data-value="pineapple" data-reserves="1">Pineapple</li>
+                <li data-value="pomelo" data-reserves="5">Pomelo</li>
+            </ul>
+        </div>
+        <div class="cart">
+            <h3>Cart</h3>
+            <ul id="J_cart"></ul>
+        </div>
+        <div id="J_console">
+            <h3>log:</h3>
+        </div>
+        
+        <script type="text/javascript">
+            var fruitInShop = $("#J_shop li"),
+                cart = $("#J_cart"),
+                consoleArea = $("#J_console"),
+                selectedNode = null,
+                fruitInCart = {};
+                
+            //渲染水果数量的DOM节点
+            fruitInShop.each(function(index){
+                var me = $(this),
+                    reserves = me.attr("data-reserves");
+                me.append('<span class="reserves">' + reserves + '</span>');
+                
+                //设置draggable属性
+                me.attr("draggable", true);
+                
+                //给shop中的水果添加自定义事件
+                me.on("selected", function(){
+                    var reserves = me.attr("data-reserves");
+                    me.attr("data-reserves" , reserves - 1);
+                    $(".reserves", me).html(reserves - 1);
+                    if(0 == (reserves - 1)){
+                        me.attr("draggable", false);
+                        me.addClass("disable");
+                    }
+                })
+            });
+            
+            //给shop中的水果添加拖动事件监听
+            fruitInShop.bind("dragstart", function(e){
+                var event = e.originalEvent;
+                selectedNode = $(this);
+                event.dataTransfer.setData("text/plain", $(this).attr("data-value"));
+            });
+            
+            //阻止默认事件，否则drop事件监听无效
+            cart.bind("dragover", function(e){
+                e.stopPropagation();
+                e.preventDefault();
+            });
+            
+            cart.bind("drop", function(e){
+                var event = e.originalEvent,
+                    data = event.dataTransfer.getData("text/plain");
+                
+                if(fruitInCart[data]){
+                    fruitInCart[data]["reserves"] += 1;
+                    $(".reserves", fruitInCart[data]["domrefer"]).html(fruitInCart[data]["reserves"]);
+                   fruitInCart[data]["domrefer"].attr("data-reserves", fruitInCart[data]["reserves"]);
+                }else{
+                    fruitInCart[data] = {};
+                    fruitInCart[data]["reserves"]  = 1;
+                    
+                    //在cart中创建一个节点
+                    var node = $('<li data-value="' + data + '" data-reserves="1">' + data.replace(/^\w/, function(c){return c.toUpperCase()}) + '<span class="reserves">1</span></li>');
+                    
+                    $(this).append(node);
+                    fruitInCart[data]["domrefer"]  = node;
+                }
+                
+                //触发shop中水果的selected自定义事件
+                selectedNode.trigger("selected");
+            });
+            
+            
+            function log(msg){
+                consoleArea.append("<p>" + msg + "</p>");
+            }
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

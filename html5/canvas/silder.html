@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>测试本地文件拖拽预览</title>
+        <link rel="stylesheet" type="text/css" href="./lib/reset.css" />
+        <style type="text/css">
+            #J_slider {
+                border: 1px solid #e1e1e1;
+                margin: 20px;
+                height: 500px;
+                width: 500px;
+            }
+            .debug {
+                position: absolute;
+                height: 0;
+                left: -9999px;
+            }
+            .item {
+                height: 110px;
+                width: 110px;
+                border: 1px solid #e1e1e1;
+                text-align: center;
+                vertical-align: middle;
+                margin: 5px;
+                float: left;
+            }
+            img {
+                margin: 5px;
+            }
+        </style>
+        <script type="text/javascript" src="./lib/jQuery.js"></script>
+    </head>
+    <body>
+        <div id="J_slider">
+            
+        </div>
+        
+        <script type="text/javascript">
+            var slider = $("#J_slider"),
+                debug = $("#J_debug"),
+                getImageURL = function(file){
+                    if(window.webkitURL.createObjectURL){
+                        return window.webkitURL.createObjectURL(file);
+                    }else if(window.URL.createObjectURL){
+                        return window.URL.createObjectURL(file);
+                    }else{
+                        var reader = new FileReader();
+                        reader.onload = function(e){
+                            
+                            //TODO onload不同步,需要使用自定义事件
+                            
+                            return e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+            
+            slider.on("dragover", function(e){
+               e.stopPropagation(); 
+               e.preventDefault();
+            });
+            slider.on("drop", function(e){
+                var files = e.originalEvent.dataTransfer.files;
+                for(var i=0; i<files.length; i++){
+                    if(/^image/.test(files[i].type)){
+                        var url = getImageURL(files[i]),
+                            debug = document.createElement("div");
+                            
+                        debug.className = "debug";
+                        document.body.appendChild(debug);
+                        debug.innerHTML = '<img src="' + url + '" />';
+                        
+                        var img = $("img", debug);
+                        (function(img, url){
+                            img.on("load", function(){
+                                var height = img.height(),
+                                    width = img.width();
+                                
+                                if(height>width && height>100)
+                                    slider.append('<div class="item"><img src="' + url + '" height="100" /></div>');
+                                else if(width>height && width>100)
+                                    slider.append('<div class="item"><img src="' + url + '" width="100" /></div>');
+                                else
+                                    slider.append('<div class="item"><img src="' + url + '" /></div>');
+                            });
+                        })(img, url);
+                        
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

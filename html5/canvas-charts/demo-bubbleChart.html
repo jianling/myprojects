@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>canvas bubbleChart</title>
+        <link rel="stylesheet" type="text/css" href="../lib/reset.css" />
+        <style type="text/css">
+            canvas {
+                background-color: #4B7297;
+                margin: 20px;
+            }
+        </style>
+        <script type="text/javascript" src="../lib/jQuery.js"></script>
+        <script type="text/javascript" src="./canvas-charts.js"></script>
+        <script type="text/javascript" src="./canvas-charts-bubbleChart.js"></script>
+    </head>
+    <body>
+        <h1>测试气泡图</h1>
+        <canvas id="J_canvas" height="500" width="800" class="red blue">Your browser isn`t support canvas.</canvas><br />
+        <script type="text/javascript">
+            var data = [
+                            [100, 100, 20],
+                            [200, 200, 30],
+                            [300, 300, 40],
+                            [400, 400, 50],
+                            [250, 300, 60],
+                            [400, 100, 20]
+                       ],
+	            canvas = document.getElementById("J_canvas");
+	            
+	        // for(var i=0; i<100; i++){
+	            // data.push([Math.random()*500, Math.random()*500]);
+	        // }
+	        
+            Canchar.bubbleChart({
+            	"canvas": canvas,
+            	"values": data,
+            	"xAxisMaxValue" : 500,
+            	"yAxisMaxValue" : 500
+            });
+        </script>
+    </body>
+</html>

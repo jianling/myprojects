@@ -1,0 +1,355 @@
+/* reset */
+body {
+	margin: 0;
+	font-family: arial,sans-serif;
+}
+p {
+	margin: 0;
+}
+ul, li{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+h1 {
+	font-size: 16px;
+	padding: 0;
+	margin: 0;
+}
+
+/* button */
+.m-btn {
+	padding: 6px 12px;
+	border-radius: 3px;
+	color: #FFF;
+	font-weight: bold;
+}
+.m-btn-blue {
+	border: 1px solid #3079ED;
+	background-color: #4D90FE;
+}
+.m-btn-blue:hover {
+	border-color: #2F5BB7;
+	background-color: #357AE8;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+.m-btn-vermilion {
+	box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+	background-color: #D14836;
+	border: 1px solid #B0281A;
+	border-bottom-color: #AF301F;
+}
+.m-btn-vermilion:hover {
+	background-color: #C53727;
+}
+.m-btn-gray {
+	border: solid 1px silver;
+	color: #666;
+}
+.m-btn-gray:hover {
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	color: #333;
+}
+
+/* input[text]*/
+.m-input-text {
+	background-color: #FFF;
+	border: 1px solid #D9D9D9;
+	height: 25px;
+	line-height: 25px;
+	margin: 0;
+	padding-left: 5px;
+}
+.m-input-text:hover, .m-input-text:focus {
+	border-color: #4D90FE;
+	outline:none;
+}
+
+/* header */
+.hd {
+	position: relative;
+	overflow: hidden;
+	background-color: #F5F5F5;
+	border: 1px solid #E5E5E5;
+	border-width: 0 0 1px;
+	height: 45px;
+	line-height: 45px;
+	border-top: 5px solid #2D2D2D;
+	border-bottom: 1px solid #EBEBEB;
+}
+.logo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 200px;
+	padding-left: 30px;
+	color: #DD4B39;
+	font-size: 20px;
+}
+.search {
+	margin: 0 200px 0 230px;
+}
+#J_sinput {
+	width: 100%;
+	max-width: 450px;
+	vertical-align: middle;
+	padding-left: 5px;
+}
+.search-btn {
+	width: 78px;
+	margin-left: 20px;
+	vertical-align: middle;
+}
+.user-info {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	color: #666;
+}
+
+/* action-wrap */
+.action-wrap {
+	height: 50px;
+	line-height: 50px;
+	border-bottom: 1px solid #EBEBEB;
+	overflow: hidden;
+}
+.action-wrap .btn-area {
+	width: 200px;
+	padding-left: 30px;
+	float: left;
+}
+#J_import {
+	width: 100px;
+}
+#J_export {
+	width: 100px;
+	font-size: 12px;
+	text-decoration: none;
+}
+.action-wrap .summary-section {
+	font-size: 14px;
+	color: #777;
+}
+.action-wrap .summary-section .count {
+	color: #DD4B39;
+}
+
+/* main-wrap */
+.main-wrap {
+	overflow: hidden;
+}
+.folders-wrap {
+	float: left;
+	height: 100%;
+}
+.splitter {
+	background-color: #EBEFF9;
+	cursor: e-resize;
+	width: 5px;
+	float: left;
+}
+.urls-wrap {
+	margin-left: 220px;
+	overflow-y: auto;
+	height: 100%;
+}
+
+/* url-item */
+.urls-items {
+	padding: 10px;
+}
+.url-item {
+	border: 1px solid #fff;
+	margin-left: 5px;
+	padding: 1px 0px 1px 4px;
+	position: relative;
+}
+.url-item:hover {
+	background-color: #F1F7FF;
+	border: 1px solid #B6D4FC;
+	border-radius: 3px;
+}
+.url-item a {
+	text-decoration: none;
+	color: #000;
+	font-size: 14px;
+	line-height: 22px;
+	height: 22px;
+	padding-left: 20px;
+	background: url(../img/favi.png) no-repeat left center;
+	display: inline-block;
+}
+.url-item .url {
+	color: #666;
+	font-size: 12px;
+	margin-left: 22px;
+	display: none;
+}
+.url-item:hover .url{
+	display: inline;
+}
+.url-item .action-del {
+	display: none;
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	font-size: 12px;
+	border-radius: 3px;
+	background-color: #C53727;
+	color: #FFF;
+	padding: 3px;
+	cursor: pointer;
+	border: 1px solid #B0281A;
+}
+.url-item:hover .action-del {
+	display: block;
+}
+
+/* search-item */
+#J_search_item {
+	height: 20px;
+	padding-left: 20px;
+	line-height: 20px;
+	border: 1px solid transparent;
+	background-position: 3px 2px;
+	background: url(../img/search.png) no-repeat 2px 2px;
+}
+#J_search_item:hover {
+	background-color: #F0F6FE;
+	-webkit-border-radius: 2px;
+	border: 1px solid #B6D4FC;
+}
+#J_search_item.focus {
+	background-color: #C9E0FC;
+	-webkit-border-radius: 2px;
+	border: 1px solid #7DA2CE;
+}
+
+/* contextmenu */
+.app-menu {
+	background: #FFF;
+	border: 1px solid rgba(0, 0, 0, .2);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	top: 0;
+	left: 0;
+	float: left;
+	display: none;
+}
+.app-menu li {
+	padding: 6px;
+	cursor: pointer;
+	font-size: 12px;
+}
+.app-menu li:hover {
+	background-color: #EEE;
+}
+.app-menu li.disable {
+	color: #ccc;
+	cursor: default;
+}
+.app-menu li.disable:hover {
+	background-color: transparent;
+}
+
+/* pop-layer */
+.pop-layer {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
+.pop-layer .mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #FFF;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=50);
+}
+.pop-layer-inner {
+	/*width: 420px;*/
+	position: absolute;
+	top: 33%;
+	left: 50%;
+	margin-left: -246px;
+	border: 1px solid rgba(0, 0, 0, .333);
+	background-color: #FFF;
+	padding: 45px 35px 20px;
+	-webkit-box-shadow: 0 4px 16px rgba(0,0,0,.2);
+	border-radius: 2px;
+}
+.pop-layer-inner p {
+	line-height: 40px;
+}
+#J_addlayer_title {
+	width: 250px;
+}
+#J_addlayer_url {
+	width: 400px;
+}
+.action-area {
+	/*padding-top: 20px;*/
+}
+.button-area button {
+	margin-right: 30px;
+}
+.pop-layer-inner .pop-title {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0 10px 20px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #333;
+}
+.pop-layer-inner select {
+	width: 162px;
+	height: 25px;
+	margin-right: 10px;
+}
+.pop-layer-inner .folder-input {
+	width: 160px;
+	margin-right: 10px;
+}
+.pop-layer-inner .addlayer-ok-btn {
+	display: none;
+}
+.pop-layer-inner .addlayer-cancle-btn {
+	display: none;
+}
+.status-bar {
+	margin-top: 20px;
+	line-height: 20px;
+}
+.status-bar span {
+	font-size: 12px;
+	padding: 0 5px 0 20px;
+	line-height: 20px;
+	display: inline-block;
+	color: #404040;
+}
+.status-bar .success {
+	background: url(../img/status.png) no-repeat 2px -198px #F0FFE5;
+	border: 1px solid #4DBF00;
+}
+.status-bar .attention {
+	background: url(../img/status.png) no-repeat 2px -118px #E5F5FF;
+	border: 1px solid #40B3FF;
+}
+.status-bar .failure {
+	background: url(../img/status.png) no-repeat 2px 2px #FFF2F2;
+	border: 1px solid #FF8080;
+}

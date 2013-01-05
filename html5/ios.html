@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>测试IOS</title>
+        <link rel="stylesheet" type="text/css" href="./lib/reset.css" />
+        <style type="text/css">
+            body {
+                padding: 20px;
+            }
+            #J_div {
+            	background-color: #e1e1e1;
+            	height: 500px;
+            	width: 500px;
+            }
+        </style>
+        <script type="text/javascript" src="./lib/jQuery.js"></script>
+    </head>
+    <body>
+        <h2>测试IOS</h2>
+        <div id="J_div">
+        	
+        </div>
+        <script type="text/javascript">
+        	var div = document.getElementById("J_div");
+        	div.addEventListener("touchstart", function(e){
+        		div.innerHTML = div.innerHTML + "touchstart<br />";
+        	}, false);
+        	
+        	div.addEventListener("touchmove", function(e){
+        		var top = div.offsetTop,
+        			left = div.offsetLeft,
+        			clientX = e.clientX,
+        			clientY = e.clientY;
+        		div.innerHTML = div.innerHTML + "touchmove top:" + top + ";left:" + left + ";clientX:" + clientX + ";clientY:" + clientY + "<br />";
+        	}, false);
+        	
+        	div.addEventListener("touchend", function(e){
+        		div.innerHTML = div.innerHTML + "touchend<br />";
+        	}, false);
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

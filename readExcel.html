@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+#yourCode {
+	min-width:610px;
+	height:350px;
+	font-size:12px;
+	margin-right:20px;
+}
+.content {
+	border:1px dashed #8CACBB;
+	background-color:#F7F9FA;
+	padding:10px;
+	float:left;
+	margin-bottom:20px;
+}
+</style>
+<script>
+/****Function Lib By Hutia********************
+	This function lib is writen by hutia.
+	Version 2.17
+	Build on 28/11/2005
+**********************************************/
+/****Function List************************
+APPLICATION
+	EXCEL
+		open, close, newSheet, selectSheet, getRange, getCellValue, save, setCellValue, setCellStyle, setBorder
+*********************************************/
+var APPLICATION =
+{
+	EXCEL:function(){
+		this.appObj=false,
+		this.open=function(strFilePath,UpdateLinks, ReadOnly, Format, Password, WriteResPassword){
+			UpdateLinks=UpdateLinks?UpdateLinks:false;
+			ReadOnly=ReadOnly?ReadOnly:false;
+			Format=Format?Format:null;
+			Password=Password?Password:"";
+			WriteResPassword=WriteResPassword?WriteResPassword:"";
+			
+			if(this.appObj){
+				this.close();
+			}
+			try{
+				this.appObj=new ActiveXObject("Excel.application");
+				this.appObj.Workbooks.open(strFilePath,UpdateLinks,ReadOnly,Format,Password,WriteResPassword);
+				return(true);
+			}catch(e){throw(e);return(false);}
+		};
+		this.close=function(){
+			if(this.appObj){
+				try{this.appObj.workbooks(1).close(false);}catch(e){}
+				this.appObj.quit();
+				this.appObj=false;
+			}
+		};
+		this.newSheet=function(){
+			if(this.appObj){
+				//this.close();
+			}
+			this.appObj=new ActiveXObject("Excel.application");
+			this.appObj.Workbooks.Add();
+			this.show();
+		};
+		this.selectSheet=function(strSheetName){
+			var tempS=new Array();
+			for(var i=0;i<this.appObj.worksheets.count;i++){
+				if(strSheetName==this.appObj.worksheets(i+1).name){
+					this.appObj.worksheets(i+1).select();
+					return(true);
+				}
+			}
+			return(false);
+		}
+		this.getRange=function(rowID,colID){
+			var cols=new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+			rowID=isNaN(parseInt(rowID))?0:parseInt(rowID);
+			colID=isNaN(parseInt(colID))?0:parseInt(colID);
+			if(colID>675){return("A1");}
+			if(colID>25){
+				colID=cols[parseInt(colID/26-1)]+cols[parseInt(colID%26)];
+			}else{
+				colID=cols[colID];
+			}
+			return(colID+(rowID+1));
+		};
+		this.getCellValue=function(row,col){
+			try{
+				return(this.appObj.Range(this.getRange(row,col)).Value);
+			}catch(e){throw(e);return(false);}
+		};
+		
+		this.save=function(){
+			try{
+				this.appObj.workbooks(1).save();
+				return(true);
+			}catch(e){throw(e);return(false);}
+		}
+		this.setCellValue=function(strText,row,col){
+			try{
+				this.appObj.Range(this.getRange(row,col)).FormulaR1C1=strText;
+				return(true);
+			}catch(e){throw(e);return(false);}
+		};
+		this.setCellStyle=function(strStyle,row,col){
+			try{
+				with(this.appObj.Range(this.getRange(row,col)).font){
+					eval(strStyle);
+				}
+			}catch(e){return(false);}
+		};
+		this.setBorder=function(row,col){
+			xlContinuous=1;
+			try{
+				this.appObj.Range(this.getRange(row,col)).Borders.LineStyle=xlContinuous;
+			}catch(e){return(false);}
+		};
+		this.show=function(){
+			try{
+				this.appObj.visible=true;
+				return(true);
+			}catch(e){return(false);}
+		};
+		this.hide=function(){
+			try{
+				this.appObj.visible=false;
+				return(true);
+			}catch(e){return(false);}
+		}
+	}
+}
+glbExcel=new APPLICATION.EXCEL();
+</script>
+</head>
+<body>
+<div>
+  <div id="yourCode" class="content"></div>
+  <div style="width:400px; float:left;">
+      <div class="content">
+        <p>手动输入</p>
+        <p id="showTotalRecord">已有0条记录</p>
+        <p>用户名<input type="text" size="12" maxlength="10" id="userName"/>
+           奖品名<input type="text" size="20" maxlength="10" id="prizeName" />
+        </p>
+        <p>
+          <input type="button" value="30元" onclick="myfunction.add30();" />
+          <input type="button" value="50元" onclick="myfunction.add50();"/>
+          <input type="button" value="100元" onclick="myfunction.add100();" />
+          <input type="button" value="清除" onclick="myfunction.clear();" />
+        </p>
+      </div>
+      <div class="content">
+        <p>直接操作Excel</p>
+        <input type=button onclick="glbExcel.newSheet();" value="打开临时Excel"><br>
+        <input type=button onclick="readExcel()" value="读取"> <input type="text" value="20" size="3" id="totalRead"/>条<input type="text" value="30" size="3" id="totalReadkind"/>元记录<br>
+        <input type=button onclick="glbExcel.close()" value="关闭Excel"><br>
+      </div>
+  </div>
+  <script type="text/javascript">
+  	function readExcel(){
+  		var no = document.getElementById("totalRead").value;
+		var kind = document.getElementById("totalReadkind").value;
+		for(var i = 0; i<no;i++){
+			if(kind == 50)
+				document.getElementById("yourCode").innerHTML += ('&lt;li class=&quot;centercolor&quot;&gt;&lt;span class=&quot;name&quot;&gt;' + glbExcel.getCellValue(i,0) + '&lt;/span&gt;&lt;span class=&quot;prize&quot;&gt;' + glbExcel.getCellValue(i,1) + '&lt;/span&gt;&lt;/li&gt;<br />');
+			else
+				document.getElementById("yourCode").innerHTML += ('&lt;li&gt;&lt;span class=&quot;name&quot;&gt;' + glbExcel.getCellValue(i,0) + '&lt;/span&gt;&lt;span class=&quot;prize&quot;&gt;' + glbExcel.getCellValue(i,1) + '&lt;/span&gt;&lt;/li&gt;<br />');
+		}
+	}
+  </script>
+  <script type="text/javascript">
+	  		var totalRecode = 0;
+	  		var myfunction = {
+				get : function(obj){
+					return document.getElementById(obj);
+				},
+				clear : function(){
+					this.get("yourCode").innerHTML = '';
+					totalRecode = 0;
+					this.get("showTotalRecord").innerHTML = "已有" + totalRecode + "条记录";
+				},
+				add30 : function(){
+					totalRecode++;
+					if(totalRecode>20){
+						alert("最多20条记录");
+						return;
+					}
+					this.get("showTotalRecord").innerHTML = "已有" + totalRecode + "条记录";
+					this.get("yourCode").innerHTML += ('&lt;li&gt;&lt;span class=&quot;name&quot;&gt;' + this.get("userName").value + '&lt;/span&gt;&lt;span class=&quot;prize&quot;&gt;' + this.get("prizeName").value + '&lt;/span&gt;&lt;/li&gt;<br />');
+				},
+				add50 : function(){
+					totalRecode++;
+					if(totalRecode>20){
+						alert("最多20条记录");
+						return;
+					}
+					this.get("showTotalRecord").innerHTML = "已有" + totalRecode + "条记录";
+					this.get("yourCode").innerHTML += ('&lt;li class=&quot;centercolor&quot;&gt;&lt;span class=&quot;name&quot;&gt;' + this.get("userName").value + '&lt;/span&gt;&lt;span class=&quot;prize&quot;&gt;' + this.get("prizeName").value + '&lt;/span&gt;&lt;/li&gt;<br />');
+				},
+				add100 : function(){
+					this.add30();
+				}
+			}
+	  </script>
+</div>
+</body>
+</html>

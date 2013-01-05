@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<style type="text/css" media="all">
+body{ font-size:12px;}
+.precontent{ display:none;}
+.editor{ width:500px; height:226px; margin:0px auto;  border:#FF9900 1px solid;}
+.editor iframe{ margin:0px; padding:0px; width:500px; height:190px; border:0px;}
+.button{ text-align:center; width:500px; margin:16px auto;}
+.editor .bar{ margin:0px; padding:0px; padding:3px 6px; height:20px; border-bottom:#FF9900 1px solid; font-size:14px; letter-spacing:2px;}
+.editor .bar input{ border:#FFFFFF 1px solid; background-color:#F8EFD6; cursor:pointer; height:19px; font-size:12px;}
+</style>
+<title>无标题文档</title>
+</head>
+
+<body>
+<div class="precontent"><p>在这里输入内容</p></div>
+<div class="editor">
+    <div class="bar"><input type="button" onclick="changestyle('UnderLine')" value="下划线" /> <input type="button" onclick="changestyle('bold')" value="粗体" id="Button1" /> <input type="button" onclick="changestyle('JustifyLeft')" value="左对齐" /> <input type="button" onclick="changestyle('JustifyCenter')" value="居中对齐" /> <input type="button" onclick="changestyle('JustifyRight')" value="右对齐" /></div>
+</div>
+<script type="text/javascript" language="javascript">
+var ifr = document.createElement("iframe");
+document.getElementsByTagName("div")[1].appendChild(ifr);
+var ifrdoc = ifr.contentWindow.document;
+var s=document.getElementsByTagName("div")[0].innerHTML;   //进入可编辑模式前存好
+ifrdoc.designMode="on";     //文档进入可编辑模式
+ifrdoc.contentEditable=true;
+ifrdoc.open();                        //打开流
+ifrdoc.writeln("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><style type=\"text/css\" media=\"all\">body{ font-size:12px; margin:0px; padding:5px;} p{ margin:6px; padding:0px;}</style><title>无标题文档</title></head><body>");
+ifrdoc.write(s);
+ifrdoc.writeln("</body></html>");
+ifrdoc.close();                        //关闭流
+//ifrdoc.designMode ="off";     //文档进入非可编辑模式
+function show(){alert(ifrdoc.body.innerHTML);}
+function changestyle(type){ifrdoc.execCommand(type,false,null);}
+</script>
+<div class="button"><input type="button" value="显示编辑器内容" onclick="show()" /></div>
+</body>
+</html>

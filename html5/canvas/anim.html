@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>弹性碰撞</title>
+        <style type="text/css">
+            canvas {
+                background-color: #e1e1e1;
+            }
+        </style>
+        <script src="../lib/jQuery.js"></script>
+    </head>
+    <body>
+        <canvas id="J_canvas" height="500" width="500"></canvas>
+        <script type="text/javascript">
+            var canvas = document.getElementById("J_canvas"),
+                context = canvas.getContext("2d");
+            
+            /**
+             * 小球类
+             */
+            var ball = function(x, y){
+                this.x = (typeof x == "undefined") ? 200 : x;
+                this.y = (typeof y == "undefined") ? 300 : y;
+                this.x_derection = true;
+                this.y_derection = true;
+                this.run();
+            };
+            ball.prototype = {
+                /**
+                 * 释放小球，让其运动
+                 */
+                run: function(){
+                    var me = this;
+                    me.timer = setInterval(function(){
+                        me.clear();
+                        
+                        $(me).trigger("ballrun");
+                    }, 10);
+                },
+                
+                /**
+                 * 渲染小球
+                 */
+                draw: function(){
+                    context.beginPath();
+                    context.arc(this.x, this.y, 5, 0, 2*Math.PI, false);
+                    context.fillStyle = "green";
+                    context.fill();
+                    context.closePath();
+                },
+                
+                /**
+                 * 清除上一个小球的渲染区域
+                 */
+                clear: function(){
+                    context.clearRect(this.x-5, this.y-5, 10, 10);
+                },
+                
+                /**
+                 * 销毁小球
+                 */
+                dispose: function(){
+                    this.clear();
+                    window["clearInterval"](this.timer);
+                }
+            };
+            
+            /**
+             * 挡板类
+             */
+            var baffle = function(x){
+                this.x = (typeof x == "undefined") ? 200 : x;
+                this.y = 490;
+                this.disposed = false;
+                this.draw();
+                this.bind();
+            };
+            baffle.prototype = {
+                
+                /**
+                 * 渲染挡板
+                 */
+                draw: function(){
+                    context.beginPath();
+                    context.rect(this.x, this.y, 100, 10);
+                    context.fillStyle = "green";
+                    context.fill();
+                    context.closePath();
+                },
+                
+                /**
+                 * 清除上一个挡板的区域
+                 */
+                clear: function(){
+                    context.clearRect(this.x, this.y, 100, 10);
+                    this.disposed = true;
+                },
+                
+                /**
+                 * 绑定键盘事件
+                 */
+                bind: function(){
+                    var me = this,
+                        step = 0,
+                        activekey = {};
+                        timer = setInterval(function(){
+                            if((step < 0 && me.x <= 0) || (step > 0 && me.x >= 400)){
+                                step = 0;
+                                return;
+                            }
+                            me.clear();
+                            me.x = me.x + step;
+                            me.draw();
+                        }, 5);
+
+                    $(document.body).on("keydown", function(e){
+                        var keycode = e.keyCode;
+                        if(keycode == 37){  //向左
+                            step = -5;
+                            activekey["37"] = true;
+                        }else if(keycode == 39){    //向右
+                            step = 5;
+                            activekey["39"] = true;
+                        }
+                    });
+                    $(document.body).on("keyup", function(e){
+                        var keycode = e.keyCode;
+                        if(keycode == 37 || keycode == 39){
+                            activekey[keycode] = false;
+                            if(!activekey["37"] && !activekey["39"])
+                                step = 0;
+                        }
+                    });
+                },
+                
+                /**
+                 * 获取挡板位置
+                 */
+                getPosition: function(){
+                    if(this.disposed){
+                        return false;
+                    }
+                    return {
+                        'x': this.x,
+                        'y': this.y
+                    }
+                }
+            };
+            
+            
+            
+            
+            
+            var ball_ins = new ball();
+            
+            var baffle_ins = new baffle();
+            
+            var foo = function(ball_ins){
+                //TODO 根据脏矩形的坐标，判断是否需要重绘挡板
+                
+                var b = ball_ins,
+                    ball_x = b.x,
+                    ball_y = b.y,
+                    baffle_x = baffle_ins.x;
+                    
+                    
+                //判断边界
+                if(b.x >= 495){
+                    b.x_derection = false;
+                }else if(b.x <= 5){
+                    b.x_derection = true;
+                }
+                
+                if(b.y >= 485){
+                    //判断小球是否在挡板上
+                    if(ball_x < baffle_x || ball_x > (baffle_x + 100)){
+                        b.dispose();
+                        return;
+                    }
+                    b.y_derection = false;
+                }else if(b.y <= 5){
+                    b.y_derection = true;
+                }
+                
+                b.x_derection ? b.x = b.x + 3 : b.x = b.x - 3;
+                b.y_derection ? b.y = b.y + 3 : b.y = b.y - 3;
+                    
+                b.draw();
+            };
+            
+            $(ball_ins).on("ballrun", function(){foo(ball_ins)});
+            
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

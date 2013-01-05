@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>弹出层</title>
+<style type="text/css">
+	#popContainer { height:100%;width:100%;position:fixed;top:0;left:auto;right:0;z-index:999;overflow:visiable;}
+	#popContainer .maskDiv { height:100%;width:100%;background-color:#999;position:absolute;top:0;left:0;z-index:1000;}
+	#popContainer .contentDiv { margin:0 auto;position:relative;background-color:#FFF;color:black;z-index:9999;border:7px solid #BBBBBB;-moz-border-radius:5px;}
+	#popContainer .contentDiv .hd {background-color:#8EAF1B;height:15px;padding:5px;cursor:move;}
+	#popContainer .contentDiv .hd>span {display:block;margin-bottom:-20px;}
+	#popContainer .contentDiv .hd .title {float:left;zoom:1;}
+	#popContainer .contentDiv .hd .tools {float:right;margin-right:0px;}
+	#popContainer .contentDiv .hd .tools button {border:0;height:14px;width:20px;cursor:pointer;}
+	#popContainer .contentDiv .hd .tools button.icon-stick-blog {background-position:0 -3433px;}
+	#popContainer .contentDiv .ft {background-color:#EFEFEF;height:35px;text-align:center;padding-top:8px;}
+	#popContainer .contentDiv .ft span {background-position:0 -53px;display:inline-block;}
+	#popContainer .contentDiv .ft span {margin-right:40px;}
+	#popContainer .contentDiv .ft span.last-child {margin-right:0px;}
+}
+</style>
+<link href="http://assets.taobaocdn.com/app/sns/tbsp-sns-min.css" type="text/css" rel="stylesheet" />
+<script src="http://assets.taobaocdn.com/app/sns/tbra-sns-min.js"></script>
+<script type="text/javascript" src="./mypopup.js"></script>
+<script type="text/javascript">
+	function showPop(){
+		new pop({
+			quadrant : 1,
+			hideMask : false,
+			width: "400",
+			movable : true,
+			title : "成功成功成功成功成功",
+			tools : ["minimize","restore","close"],
+			content : '<form><br /><p style="text-align:center;">支付宝账号：<input type="text" class="txt" value="" name="some_name" size="25"/></p></form><br /><br /><br />',
+			buttons : [
+			{text:"确定",func:function(){}},
+			{text:"取消",func:function(){alert("cancle");}}
+			]
+		})
+	}
+</script>
+</head>
+
+<body style="height:100%;">
+<input type="button" value="弹出层" id="showBut" onclick="showPop();" />
+<select>
+<optgroup label="第一组"></optgroup>
+<option>北京</option>
+<option>上海</option>
+</select>
+<div id="debug"></div>
+<div style="height:1500px;border:1px solid #000;"></div>
+<select>
+<optgroup label="第一组"></optgroup>
+<option>北京</option>
+<option>上海</option>
+</select>
+</body>
+</html>

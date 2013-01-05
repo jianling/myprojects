@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>测试文件上传</title>
+        <link rel="stylesheet" type="text/css" href="../lib/reset.css" />
+        <style type="text/css">
+            form {
+            	border: 1px solid #e1e1e1;
+            	margin: 20px;
+            	padding: 20px;
+            }
+            legend {
+            	font-size: 16px;
+            	line-height: 2em;
+            	font-weight: bold;
+            }
+            #filedrag  
+            {  
+                font-weight: bold;  
+                text-align: center;  
+                padding: 1em 0;  
+                margin: 1em 0;  
+                color: #555;  
+                border: 2px dashed #555;  
+                border-radius: 7px;  
+                cursor: default;  
+            }  
+            #filedrag.hover  
+            {  
+                color: #f00;  
+                border-color: #f00;  
+                border-style: solid;  
+                box-shadow: inset 0 3px 4px #888;  
+            }
+        </style>
+        <script type="text/javascript" src="../lib/jQuery.js"></script>
+    </head>
+    <body>
+        <p>测试文件上传</p>
+        <form id="J_form" name="form" action="./upload.php" method="POST" ecctype="multipart/form-data">
+            <fieldset>
+                <legend>HTML5 File Upload - Normal</legend>
+                <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="30000" />
+                <div>
+                    <label for="fileselect">Files to upload:</label>
+                    <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+                </div>
+                <div id="filedrag">or drog files here</div>
+                <div>
+                    <button type="submit" id="J_submit">Upload Files</button>
+                </div>
+            </fieldset>
+        </form>
+        
+        <div id="J_console">
+        	
+        </div>
+        
+        <script type="text/javascript">
+            var fileinput = $("#fileselect"),
+            	filedrag = $("#filedrag"),
+                J_console = $("#J_console"),
+                submitBtn = $("#J_submit"),
+                reader = new FileReader(),
+                files = null;
+                
+            function createImageReader(file){
+            	if(window.webkitURL.createObjectURL){
+            		J_console.append('<img src="' + window.webkitURL.createObjectURL(file) + '" />');
+            	}else if(window.URL.createObjectURL){
+            		J_console.append('<img src="' + window.URL.createObjectURL(file) + '" />');
+            	}else{
+            		var reader = new FileReader();
+	            	reader.onload = function(e){
+	            		J_console.append('<img src="' + e.target.result + '" />');
+	            	};
+	            	reader.readAsDataURL(file);
+            	}
+            }
+            
+            var fileHandler = function(e){
+            	files = e.target.files || e.originalEvent.dataTransfer.files;
+            	for(var i = 0; i<files.length; i++){
+            		if(/^image/.test(files[i].type)){
+            			createImageReader(files[i]);
+            		}else if(/^text/.test(files[i].type)){
+            			var reader = new FileReader();
+		            	reader.onload = function(e){
+		            		console.log(e.target.result);
+		            	};
+            			reader.readAsText(files[i]);
+            		}
+            	}
+            };
+
+            fileinput.on("change", function(e){
+            	fileHandler(e);
+            });
+            
+            filedrag.on("dragover", function(e){
+            	e.stopPropagation();
+                e.preventDefault();
+            });
+            
+            filedrag.on("drop", function(e){
+            	fileHandler(e);
+            });
+            
+            submitBtn.on("click", function(e){
+                e.preventDefault();
+                
+                var fd = new FormData();
+                fd.append("name", "jianling");
+                fd.append("submittime", new Date());
+                for(var i = 0; i<files.length; i++){
+                    fd.append("files[]", files[i]);
+                }
+                
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(e){
+                    console.log(e);
+                }, false);
+                xhr.addEventListener("load", function(e){
+                    console.log(e);
+                }, false);
+                xhr.open("POST", "./upload.php");
+                xhr.send(fd);
+            });
+            
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

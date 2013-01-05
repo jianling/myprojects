@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>选取Demo</title>
+<style type="text/css">
+	body{ font-size:12px;}
+	.editor{ width:500px; height:226px; margin:0px auto;  border:#FF9900 1px solid;}
+	.editor iframe{ margin:0px; padding:0px; width:500px; height:190px; border:0px;}
+	.button{ text-align:center; width:500px; margin:16px auto;}
+	.editor .bar{ margin:0px; padding:0px; padding:3px 6px; height:60px; border-bottom:#FF9900 1px solid; font-size:14px; letter-spacing:2px;}
+</style>
+</head>
+
+<body>
+<div class="editor">选取不在iframe中时，直接通过本页面的document或者window的相关属性、方法，所有浏览器都能获取选区，其中IE7,8,Opera显示为[object Selection]，IE6为[object],其他浏览器为选择的内容，并且，在非IE的浏览器中，iframe内和iframe外可以同时存在选区，而IE中只能存在一个。
+    <div class="bar">
+		<input type="button" onclick='display1();' value="Demo1" />
+		<input type="button" onclick='display2();' value="Demo2" />
+		<input type="button" onclick='display3();' value="Demo3" />
+    </div>
+    <iframe id='editor_body_area' name='editor_body_area' style='border:none; overflow-x:auto;' frameborder='0'></iframe>
+	<form name="myForm">
+		<textarea name="myArea" cols="40" rows="4"></textarea>
+	</form>
+</div>
+
+<script type="text/javascript" language="javascript">
+	var ifr = document.getElementById("editor_body_area");
+	var ifrdoc = ifr.contentWindow.document || ifr.contentDocument;
+	ifrdoc.open();
+	ifrdoc.write('<html><head></head><body>在iframe中，直接通过本页面的document或者window的相关属性、方法，只有IE能获取选区，同样，显示的是[object Selection]，IE6为[object]</body></html>');
+	ifrdoc.close();
+	ifrdoc.body.contentEditable=true;
+
+	function display1(){
+		if(document.selection){//IE,Opera
+			var str = document.selection;
+			document.myForm.myArea.value = str;//返回[object Selection]
+		}
+		if(document.getSelection){//非IE（包括Oprea）
+			var str = window.getSelection();
+			//var str = document.getSelection();
+			document.myForm.myArea.value = str;//返回选择的文字
+		}
+	}
+	function display2(){
+		if(document.selection){//IE,Opera
+			//var str = document.selection.createRange();	 返回[object TextRange]
+			var str = document.selection.createRange().text;
+			document.myForm.myArea.value = str;
+		}
+		if(document.getSelection){//非IE（包括Oprea）
+			var str = window.getSelection().getRangeAt(0);
+			//var str = document.getSelection().getRangeAt(0);	报错
+			document.myForm.myArea.value = str;
+		}
+	}
+	function display3(){
+		if(document.selection){//IE,Opera
+			//var str = document.selection.createRange();	 返回[object TextRange]
+			var str = ifrdoc.selection.createRange().text;
+			document.myForm.myArea.value = str;
+		}
+		if(document.getSelection){//非IE（包括Oprea）
+			var str = ifr.contentWindow.getSelection().getRangeAt(0);
+			//var str = document.getSelection().getRangeAt(0);	报错
+			document.myForm.myArea.value = str;
+		}
+		if(document.selection)
+			alert(ifrdoc.selection.createRange().queryCommandValue('FontSize'));
+		else if(document.getSelection)
+			alert(ifrdoc.queryCommandValue('FontSize'));
+	}
+</script>
+</body>
+</html>
